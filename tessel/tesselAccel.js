@@ -15,13 +15,6 @@ accel.on('connected', function () {
                     xyz[2].toFixed(2)
             );
 
-            /*console.log(
-                {
-                    'x' : xyz[0].toFixed(2),
-                    'y' : xyz[1].toFixed(2),
-                    'z' : xyz[2].toFixed(2)
-                }
-            );*/
         });
     }, 100);
 });
