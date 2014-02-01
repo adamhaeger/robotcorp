@@ -23,7 +23,19 @@
         var socket = io.connect('http://192.168.1.108:9000');
 
         socket.on('retrievedFileContent', function (data) {
-            api.light.on(3, 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt(api.convert.brightness(data.x), 10));
+            var json = data.split("|");
+
+
+            console.log("Length: " + json.length);
+            if (json.length == 3) {
+                api.light.on(1, 'none', parseInt(api.convert.hue(json[2]),10), parseInt($("#sat").val(), 10), parseInt(api.convert.brightness(json[2]), 10));
+                api.light.on(2, 'none', parseInt(api.convert.hue(json[2]),10), parseInt($("#sat").val(), 10), parseInt(api.convert.brightness(json[2]), 10));
+                api.light.on(3, 'none', parseInt(api.convert.hue(json[2]),10), parseInt($("#sat").val(), 10), parseInt(api.convert.brightness(json[2]), 10));
+
+            } else {
+
+            }
+
             console.log(data);
         } );
 
