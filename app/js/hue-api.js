@@ -5,6 +5,7 @@ function apiFunction() {
 
     this.convert = {
         hue: function(accVal){
+            accVal = parseFloat(accVal);
             if (accVal > 1) {
                 accVal = 1;
             } else if (accVal < -1) {
@@ -14,6 +15,7 @@ function apiFunction() {
             return parseInt(32767 * (accVal+1),10);
         },
         sat: function(accVal) {
+            accVal = parseFloat(accVal);
             if (accVal > 1) {
                 accVal = 1;
             } else if (accVal < -1) {
@@ -23,7 +25,7 @@ function apiFunction() {
             return parseInt(127 * (accVal+1),10);
         },
         brightness: function(accVal) {
-            accVal = parseInt(accVal, 10);
+            accVal = parseFloat(accVal);
             if (accVal > 1) {
                 accVal = 1;
             } else if (accVal < -1) {
@@ -31,6 +33,11 @@ function apiFunction() {
             }
 
             return parseInt(127 * (accVal+1),10);
+        },
+        rotate: function(accVal) {
+
+
+            return accVal * 1.57;
         }
 
 

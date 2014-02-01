@@ -1,0 +1,217 @@
+<?php
+
+/*
+
+TODO: Fetch geojson (manually first is fine, for example simple geom from buildings)
+TODO: Try to import the geojson as 3d walls.
+TODO: Import doors and subtract them from existing walls (not sure if this is going to be too heavy with lots of walls?).
+TODO: Automatically import walls for a specific floor
+TODO: Improve controls (wasd, arrowkeys), touch controls if phone/tablet.
+TODO: Navigation? Could be cool. Maybe even allow the camera to follow the generated path. Could use a path directly from the existing search engine.
+TODO: Optimizations, test on various devices, etc.
+
+
+ */
+
+?>
+<html>
+<head>
+    <title>Auto3DGenerator</title>
+    <script src="js/three.min.js"></script>
+    <script src="js/csg.js"></script>
+    <script src="js/Detector.js"></script>
+    <script src="js/renderers/CSS3DRenderer.js"></script>
+    <script src="js/ThreeCSG.js"></script>
+    <script src="js/controls/FirstPersonControls.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script src="js/libs/stats.min.js"></script>
+    <script src="js/hue-api.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <!--script src="jQuery.js"></script-->
+
+    <style>
+        body, html {
+            margin: 0px;
+            padding: 0px;
+
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    var container = document.createElement('div');
+    document.body.appendChild(container);
+
+    var VIEW_ANGLE = 45, ASPECT = window.innerWidth / window.innerHeight, NEAR = 0.01, FAR = 10000;
+
+    var lastTime = 0;
+    var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+    var scene = new THREE.Scene();
+    scene.add(camera);
+    camera.position.z = 500;
+    camera.position.y = 100;
+
+    controls = new THREE.OrbitControls( camera );
+    controls.movementSpeed = 50;
+    controls.lookSpeed = 0.55;
+    controls.lookVertical = true;
+
+
+    // STats
+
+    var stats = new Stats();
+    stats.setMode(0); // 0: fps, 1: ms
+
+    // Align top-left
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.left = '0px';
+    stats.domElement.style.top = '0px';
+
+    document.body.appendChild( stats.domElement );
+
+
+    // Sphere
+    var direction = 3;
+    var sphereMaterial = new THREE.MeshLambertMaterial( { color: 0x0055AA, depthTest: true, side: THREE.DoubleSide });
+
+    var wallMaterial = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, depthTest: true, side: THREE.DoubleSide });
+
+    var whiteWallTex = new THREE.ImageUtils.loadTexture( 'textures/whitewall.png' );
+    whiteWallTex.wrapS = whiteWallTex.wrapT = THREE.RepeatWrapping;
+    whiteWallTex.repeat.set( 10, 10 );
+
+    var whiteWallMaterial = new THREE.MeshBasicMaterial( { map: whiteWallTex} );
+
+
+
+    var floorTexture = new THREE.ImageUtils.loadTexture( 'textures/grass.png' );
+    floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+    floorTexture.repeat.set( 10, 10 );
+    //floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+    //floorTexture.repeat.set( 200, 200);
+
+    var geometry = new THREE.PlaneGeometry( 4000, 3000, 1, 1 );
+    var material = new THREE.MeshBasicMaterial( { map: floorTexture} );
+    var floor = new THREE.Mesh( geometry, material );
+    floor.material.side = THREE.DoubleSide;
+    floor.rotation.x = 1.57;
+    floor.position.y = -25
+    floor.renderDepth = 0.2;
+
+
+
+    scene.add(floor);
+
+    var radius = 50, segments = 16, rings = 16;
+
+    var width = 50;
+    var height = 300;
+    var sphere = new THREE.Mesh(
+            new THREE.CubeGeometry(width, height, 80),
+            sphereMaterial);
+    sphere.renderDepth = 0.5;
+    sphere.position.y = parseInt(height/2, 10);
+    //scene.add(sphere);
+
+    var mesh;
+
+    var test;
+    test = new THREE.Mesh( new THREE.CubeGeometry( 150, 450, 2 ), whiteWallMaterial);
+    mesh = test;
+    mesh.position.y = parseInt(height/2, 10);
+    mesh.position.x = 200;
+    mesh.position.z = 50;
+
+    mesh.overdraw = false;
+    mesh.doubleSided = true;
+    mesh.rotation.x = 1.57;
+    //mesh.rotation.x = 1.57;
+    scene.add( mesh );
+
+    var pointLight = new THREE.PointLight(0xFFFFFF);
+
+    pointLight.position.x = 10;
+    pointLight.position.y = 50;
+    pointLight.position.z = 130;
+
+    scene.add(pointLight);
+
+
+    if ( Detector.webgl ){
+        renderer = new THREE.WebGLRenderer( { clearColor:0xFFFFFF, antialias:true } );
+    }
+    else{
+        renderer = new THREE.CanvasRenderer({clearColor:0x0000FF});
+        //renderer = new THREE.CSS3DRenderer({clearColor:0x0000FF});
+    }
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.sortObjects = true;
+    //renderer.setDepthTest(true);
+    container.appendChild( renderer.domElement );
+
+    camera.lookAt(mesh);
+
+    //draw
+    animate();
+
+    function animate() {
+
+        // note: three.js includes requestAnimationFrame shim
+        requestAnimationFrame( animate );
+        render();
+
+    }
+
+    console.log(controls);
+
+    var toX = 0;
+    var stepSize = 0.02;
+    function render() {
+        stats.begin();
+        var time = new Date().getTime() / 1000;
+
+        pointLight.position.x = camera.position.x;
+        pointLight.position.y = camera.position.y;
+        pointLight.position.z = camera.position.z;
+
+
+        if (toX > test.rotation.x + stepSize) {
+            test.rotation.x += stepSize;
+        } else if (toX < test.rotation.x - stepSize) {
+            test.rotation.x -= stepSize;
+        }
+
+
+
+
+        controls.update( time - lastTime );
+        renderer.render(scene, camera);
+        lastTime = time;
+        stats.end();
+    }
+
+    window.onload = function() {
+        var messages = [];
+        var socket = io.connect('http://192.168.1.108:9000');
+
+        socket.on('retrievedFileContent', function (data) {
+            var json = data.split("|");
+
+
+            console.log("Length: " + json.length);
+            if (json.length == 3) {
+                //test.rotation.x = api.convert.rotate(json[0]);
+
+                toX = api.convert.rotate(json[2]);
+            } else {
+
+            }
+
+            console.log(data);
+        } );
+    };
+
+</script>
+</body>
+</html>
