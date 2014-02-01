@@ -47,6 +47,8 @@ TODO: Optimizations, test on various devices, etc.
     var lastTime = 0;
     var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
     var scene = new THREE.Scene();
+    var clock = new THREE.Clock();
+
     scene.add(camera);
     camera.position.z = 500;
     camera.position.y = 100;
@@ -190,6 +192,14 @@ TODO: Optimizations, test on various devices, etc.
             } else if (toX < test.rotation.x - stepSize) {
                 test.rotation.x -= stepSize;
             }
+
+
+            if (i%2) {
+                test.position.y += Math.sin(clock.getElapsedTime());
+            } else {
+                test.position.y -= Math.sin(clock.getElapsedTime());
+            }
+
         }
 
 
