@@ -12,6 +12,7 @@
     <script src="js/jquery.js" type="text/javascript"></script>
     <script src="js/bootstrap.js" type="text/javascript"></script>
     <script src="js/main.js" type="text/javascript"></script>
+    <script src="js/util.js" type="text/javascript"></script>
     <script src="js/hue-api.js" type="text/javascript"></script>
 
 <script type="text/javascript">
@@ -33,12 +34,13 @@
             });
         }, 50);*/
 
-        $('#light1-on').on('click', function(){
-            api.light.on(1, 300, 255, 255);
+        $('.light-on').on('click', function(){
+            api.light.on($(this).attr('data-light-id'), 200, 255, 100);
         });
 
-        $('#light1-off').on('click', function(){
-            api.light.off(1);
+
+        $('.light-off').on('click', function(){
+            api.light.off($(this).attr('data-light-id'));
         });
 
     });
@@ -51,8 +53,14 @@
         </div>
 
         <div class="col-sm-offset-1 col-sm-10">
-            <button id="light1-on" type="button" class="btn btn-primary btn-block">Light 1 on</button>
-            <button id="light1-off" type="button" class="btn btn-primary btn-block">Light 1 off</button>
+            <button data-light-id="1" type="button" class="light-on btn btn-primary btn-block">Light 1 on</button>
+            <button data-light-id="1" type="button" class="light-off btn btn-primary btn-block">Light 1 off</button>
+
+            <button data-light-id="2" type="button" class="light-on btn btn-primary btn-block">Light 2 on</button>
+            <button data-light-id="2" type="button" class="light-off btn btn-primary btn-block">Light 2 off</button>
+
+            <button data-light-id="3" type="button" class="light-on btn btn-primary btn-block">Light 3 on</button>
+            <button data-light-id="3" type="button" class="light-off btn btn-primary btn-block">Light 3 off</button>
         </div>
     </div>
 

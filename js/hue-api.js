@@ -5,7 +5,7 @@ function apiFunction() {
 
 
     this.light = {
-        on: function(lightId, hue, brightness, sat) {
+        on: function(lightId, hue, sat, brightness) {
             var lightObj = {
                 "on":true,
                 "sat":sat,
