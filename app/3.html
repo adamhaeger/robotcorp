@@ -74,13 +74,13 @@ TODO: Optimizations, test on various devices, etc.
     var direction = 3;
     var sphereMaterial = new THREE.MeshLambertMaterial( { color: 0x0055AA, depthTest: true, side: THREE.DoubleSide });
 
-    var wallMaterial = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, depthTest: true, side: THREE.DoubleSide });
+    var wallMaterial = new THREE.MeshLambertMaterial( { color: 0xFFFFFF, depthTest: true, side: THREE.DoubleSide, transparent: true, opacity: 0.5 });
 
     var whiteWallTex = new THREE.ImageUtils.loadTexture( 'textures/tessel_texture.png' );
     whiteWallTex.wrapS = whiteWallTex.wrapT = THREE.RepeatWrapping;
     whiteWallTex.repeat.set( 1, 1 );
 
-    var whiteWallMaterial = new THREE.MeshBasicMaterial( { map: whiteWallTex} );
+    var whiteWallMaterial = new THREE.MeshBasicMaterial( { map: whiteWallTex, transparent: true, opacity: 1.0} );
 
 
 
@@ -91,7 +91,7 @@ TODO: Optimizations, test on various devices, etc.
     //floorTexture.repeat.set( 200, 200);
 
     var geometry = new THREE.PlaneGeometry( 4000, 3000, 1, 1 );
-    var material = new THREE.MeshBasicMaterial( { map: floorTexture} );
+    var material = new THREE.MeshBasicMaterial( { map: floorTexture } );
     var floor = new THREE.Mesh( geometry, material );
     floor.material.side = THREE.DoubleSide;
     floor.rotation.x = 1.57;
