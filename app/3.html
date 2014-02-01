@@ -76,9 +76,9 @@ TODO: Optimizations, test on various devices, etc.
 
     var wallMaterial = new THREE.MeshLambertMaterial( { color: 0xCCCCCC, depthTest: true, side: THREE.DoubleSide });
 
-    var whiteWallTex = new THREE.ImageUtils.loadTexture( 'textures/whitewall.png' );
+    var whiteWallTex = new THREE.ImageUtils.loadTexture( 'textures/tessel_texture.png' );
     whiteWallTex.wrapS = whiteWallTex.wrapT = THREE.RepeatWrapping;
-    whiteWallTex.repeat.set( 10, 10 );
+    whiteWallTex.repeat.set( 1, 1 );
 
     var whiteWallMaterial = new THREE.MeshBasicMaterial( { map: whiteWallTex} );
 
@@ -95,7 +95,7 @@ TODO: Optimizations, test on various devices, etc.
     var floor = new THREE.Mesh( geometry, material );
     floor.material.side = THREE.DoubleSide;
     floor.rotation.x = 1.57;
-    floor.position.y = -25
+    floor.position.y = -25.0;
     floor.renderDepth = 0.2;
 
 
@@ -116,11 +116,11 @@ TODO: Optimizations, test on various devices, etc.
     var mesh;
 
     var test;
-    test = new THREE.Mesh( new THREE.CubeGeometry( 150, 450, 2 ), whiteWallMaterial);
+    test = new THREE.Mesh( new THREE.CubeGeometry( 512, 512, 2 ), whiteWallMaterial);
     mesh = test;
-    mesh.position.y = parseInt(height/2, 10);
+    mesh.position.y = 200;
     mesh.position.x = 200;
-    mesh.position.z = 50;
+    mesh.position.z = 200;
 
     mesh.overdraw = false;
     mesh.doubleSided = true;
@@ -198,8 +198,6 @@ TODO: Optimizations, test on various devices, etc.
         socket.on('retrievedFileContent', function (data) {
             var json = data.split("|");
 
-
-            console.log("Length: " + json.length);
             if (json.length == 3) {
                 //test.rotation.x = api.convert.rotate(json[0]);
 
@@ -207,8 +205,6 @@ TODO: Optimizations, test on various devices, etc.
             } else {
 
             }
-
-            console.log(data);
         } );
     };
 
