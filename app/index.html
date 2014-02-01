@@ -13,18 +13,12 @@
 
     window.onload = function() {
 
-    var messages = [];
     var socket = io.connect('http://localhost:9000');
 
     socket.on('retrievedFileContent', function (data) {
         console.log(data);
-
-    } );
-
-        }
-
-
-
+        });
+    }
             </script>
 
 </html>

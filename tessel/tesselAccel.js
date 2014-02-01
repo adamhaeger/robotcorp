@@ -10,13 +10,18 @@ accel.on('connected', function () {
     setInterval(function () {
         accel.getAcceleration(function (err, xyz) {
             console.log(
-                {
-                    "x" : xyz[0].toFixed(2),
-                    "y" : xyz[1].toFixed(2),
-                    "z" : xyz[2].toFixed(2)
-                }
-
+                    xyz[0].toFixed(2) + '|' +
+                    xyz[1].toFixed(2) + '|' +
+                    xyz[2].toFixed(2)
             );
+
+            /*console.log(
+                {
+                    'x' : xyz[0].toFixed(2),
+                    'y' : xyz[1].toFixed(2),
+                    'z' : xyz[2].toFixed(2)
+                }
+            );*/
         });
     }, 100);
 });
