@@ -63,29 +63,52 @@
 </script>
 </head>
 <body>
-    <div id="content" class="row">
-        <div>
-            <h1>Robocorp <small>totally not sponsored by bootstrap</small></h1>
+    <div id="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Robocorp <small>totally not sponsored by bootstrap</small></h1>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <form role="form">
+                    <div class="form-group">
+                        <select id="light" class="form-control">
+                            <option value="1">Light 1</option>
+                            <option value="2">Light 2</option>
+                            <option value="3">Light 3</option>
+                            <option value="0">All</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hue">Hue: 0-65535</label>
+                        <input id="hue" type="range" name="hue" min="0" max="65535" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="sat">Saturation: 0-255</label>
+                        <input id="sat" type="range" name="sat" min="0" max="255" value="255">
+                    </div>
+                    <div class="form-group">
+                        <label for="bri">Brightness: 0-255</label>
+                        <input id="bri" type="range" name="li" min="0" max="255" value="150">
+                    </div>
+
+                    <div class="form-group">
+                        <button data-light-id="1" type="button" class="light-on btn btn-primary btn-block">Light on</button>
+                        <button data-light-id="1" type="button" class="light-off btn btn-primary btn-block">Light off</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div id="color">
+
+                </div>
+
+            </div>
         </div>
-
-
-
-        <div class="col-xs-offset-1 col-xs-10">
-            <button data-light-id="1" type="button" class="light-on btn btn-primary btn-block">Light 1 on</button>
-            <button data-light-id="1" type="button" class="light-off btn btn-primary btn-block">Light 1 off</button>
-
-            <button data-light-id="2" type="button" class="light-on btn btn-primary btn-block">Light 2 on</button>
-            <button data-light-id="2" type="button" class="light-off btn btn-primary btn-block">Light 2 off</button>
-
-            <button data-light-id="3" type="button" class="light-on btn btn-primary btn-block">Light 3 on</button>
-            <button data-light-id="3" type="button" class="light-off btn btn-primary btn-block">Light 3 off</button>
-        </div>
-        <div class="col-xs-offset-1 col-xs-10">
-            Hue: 0-65535 <input id="hue" type="range" name="hue" min="0" max="65535" value="0">
-            Saturation: 0-255 <input id="sat" type="range" name="sat" min="0" max="255" value="255">
-            Brightness: 0-255 <input id="bri" type="range" name="li" min="0" max="255" value="150">
-        </div>
+        <!-- end: row -->
     </div>
+    <!-- end: #content -->
 
 </body>
 </html>
