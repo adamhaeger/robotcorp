@@ -115,18 +115,24 @@ TODO: Optimizations, test on various devices, etc.
 
     var mesh;
 
+    var tests = [];
     var test;
-    test = new THREE.Mesh( new THREE.CubeGeometry( 512, 512, 2 ), whiteWallMaterial);
-    mesh = test;
-    mesh.position.y = 200;
-    mesh.position.x = 200;
-    mesh.position.z = 200;
+    for (var tX=0; tX<5; tX++) {
+        for (var tY=0; tY<5; tY++) {
+            test = new THREE.Mesh( new THREE.CubeGeometry( 512, 512, 2 ), whiteWallMaterial);
+            mesh = test;
+            mesh.position.y = 200 ;
+            mesh.position.x = -1000 + (tX * 520);
+            mesh.position.z = -1000 + (tY * 520);
 
-    mesh.overdraw = false;
-    mesh.doubleSided = true;
-    mesh.rotation.x = 1.57;
-    //mesh.rotation.x = 1.57;
-    scene.add( mesh );
+            mesh.overdraw = false;
+            mesh.doubleSided = true;
+            mesh.rotation.x = 1.57;
+            //mesh.rotation.x = 1.57;
+            scene.add( mesh );
+            tests.push(test);
+        }
+    }
 
     var pointLight = new THREE.PointLight(0xFFFFFF);
 
@@ -167,6 +173,7 @@ TODO: Optimizations, test on various devices, etc.
 
     var toX = 0;
     var stepSize = 0.02;
+    renderer.setClearColorHex( 0xabcabc, 1 );
     function render() {
         stats.begin();
         var time = new Date().getTime() / 1000;
@@ -176,11 +183,15 @@ TODO: Optimizations, test on various devices, etc.
         pointLight.position.z = camera.position.z;
 
 
-        if (toX > test.rotation.x + stepSize) {
-            test.rotation.x += stepSize;
-        } else if (toX < test.rotation.x - stepSize) {
-            test.rotation.x -= stepSize;
+        for (var i=0; i<tests.length; i++) {
+            test = tests[i];
+            if (toX > test.rotation.x + stepSize) {
+                test.rotation.x += stepSize;
+            } else if (toX < test.rotation.x - stepSize) {
+                test.rotation.x -= stepSize;
+            }
         }
+
 
 
 
