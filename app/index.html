@@ -19,6 +19,7 @@
 
     $(function(){
 
+        var timer;
         var messages = [];
         var socket = io.connect('http://192.168.1.108:9000');
 
@@ -45,18 +46,18 @@
             }
 
             timer = setTimeout(function(){
-                api.light.on(1, 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
+                api.light.on($('#light').val(), 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
             }, 300);
 
         });
 
         $('.light-on').on('click', function(){
-            api.light.on($(this).attr('data-light-id'), 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
+            api.light.on($('#light').val(), 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
         });
 
 
         $('.light-off').on('click', function(){
-            api.light.off($(this).attr('data-light-id'));
+            api.light.off($('#light').val());
         });
 
     });

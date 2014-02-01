@@ -46,6 +46,8 @@ function apiFunction() {
     this.light = {
         on: function(lightId, type, hue, sat, brightness) {
 
+            lightId = parseInt(lightId, 10);
+
             if (lightId == 0) {
                 return api.group.on(lightId, type, hue, sat, brightness);
             }
@@ -71,6 +73,15 @@ function apiFunction() {
             });
         },
         off: function(lightId) {
+
+            lightId = parseInt(lightId, 10);
+
+            if (lightId == 0) {
+                return api.group.off(lightId);
+            }
+
+
+
             var lightObj = {
                 "on":false
             };
@@ -110,7 +121,16 @@ function apiFunction() {
             });
         },
         off: function(groupId) {
+            var lightObj = {
+                "on":false
+            };
 
+            return $.ajax({
+                url: baseUrl + "/api/" + username + "/groups/" + groupId+ "/action",
+                type: "PUT",
+                contentType: "application/jsonp",
+                data: JSON.stringify(lightObj)
+            });
         }
     }
 
