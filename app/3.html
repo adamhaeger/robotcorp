@@ -148,6 +148,7 @@ TODO: Optimizations, test on various devices, etc.
     }
     else{
         renderer = new THREE.CanvasRenderer({clearColor:0x0000FF});
+
         //renderer = new THREE.CSS3DRenderer({clearColor:0x0000FF});
     }
 
@@ -172,6 +173,8 @@ TODO: Optimizations, test on various devices, etc.
     console.log(controls);
 
     var toX = 0;
+    var toY = 0;
+    var toZ = 0;
     var stepSize = 0.02;
     renderer.setClearColorHex( 0xabcabc, 1 );
     function render() {
@@ -185,15 +188,26 @@ TODO: Optimizations, test on various devices, etc.
 
         for (var i=0; i<tests.length; i++) {
             test = tests[i];
+
             if (toX > test.rotation.x + stepSize) {
                 test.rotation.x += stepSize;
             } else if (toX < test.rotation.x - stepSize) {
                 test.rotation.x -= stepSize;
             }
+
+            if (toY > test.rotation.y + stepSize) {
+                test.rotation.y += stepSize;
+            } else if (toY < test.rotation.y - stepSize) {
+                test.rotation.y -= stepSize;
+            }
+
+            if (toX > test.rotation.z + stepSize) {
+                test.rotation.z += stepSize;
+            } else if (toX < test.rotation.z - stepSize) {
+                test.rotation.z -= stepSize;
+            }
+
         }
-
-
-
 
 
         controls.update( time - lastTime );
@@ -213,6 +227,8 @@ TODO: Optimizations, test on various devices, etc.
                 //test.rotation.x = api.convert.rotate(json[0]);
 
                 toX = api.convert.rotate(json[2]);
+                toY = api.convert.rotate(json[0]);
+                toZ = api.convert.rotate(json[1]);
             } else {
 
             }
