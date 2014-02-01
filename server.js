@@ -2,7 +2,8 @@
 var application_root = __dirname;
 var express = require("express");
 var app = express();
-var fs = require('fs')
+var fs = require('fs');
+
 
 app.configure(function() {
 
@@ -17,39 +18,36 @@ var io = require('socket.io').listen(app.listen(9000));
 io.sockets.on('connection', function (socket) {
     fs.watchFile('data.json', {
         persistent: true,
-        interval: 100
+        interval: 1000
     },function(data){
         fs.readFile('data.json', {
             'bufferSize': 4 * 1024,
             'encoding' : 'utf8'
         }, function(err, data){
             if(err){
-
-                console.log(data);
-
+                console.log(err);
             }
-            socket.emit('retrievedFileContent', {content:data});
-            console.log(data);
+
+            var lines = data.trim().split('\n');
+            /*lines.replace("MMA8452Q is online... ","");*/
+
+            var lastLine = lines.slice(-1)[0];
+            console.log(lastLine);
+
+            socket.emit('retrievedFileContent', lastLine );
+
         })
     });
 });
 
-/*fs.watchFile('data.json', {
-    persistent: true,
-    interval: 100
-},function(data){
-    fs.readFile('data.json', {
-        'bufferSize': 4 * 1024,
-        'encoding' : 'utf8'
-    }, function(err, data){
-        if(err){
-
-            console.log(data);
-        }
-        console.log(data);
-    })
-});*/
-
-
-
 exports = module.exports = app;
+
+/*
+
+Tail = require('tail').Tail;
+
+tail = new Tail("fileToTail");
+
+tail.on("line", function(data) {
+    console.log(data);
+});*/
