@@ -14,25 +14,6 @@ app.configure(function() {
 
 
 var io = require('socket.io').listen(app.listen(9000));
-io.sockets.on('connection', function (socket) {
-    fs.watchFile('data.json', {
-        persistent: true,
-        interval: 100
-    },function(data){
-        fs.readFile('data.json', {
-            'bufferSize': 4 * 1024,
-            'encoding' : 'utf8'
-        }, function(err, data){
-            if(err){
-
-                console.log(data);
-
-            }
-            socket.emit('retrievedFileContent', {content:data});
-            console.log(data);
-        })
-    });
-});
 
 /*fs.watchFile('data.json', {
     persistent: true,

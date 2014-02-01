@@ -23,6 +23,7 @@ function apiFunction() {
             return parseInt(127 * (accVal+1),10);
         },
         brightness: function(accVal) {
+            accVal = parseInt(accVal, 10);
             if (accVal > 1) {
                 accVal = 1;
             } else if (accVal < -1) {
