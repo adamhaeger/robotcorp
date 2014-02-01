@@ -166,7 +166,10 @@ TODO: Optimizations, test on various devices, etc.
     console.log(controls);
 
     var toX = 0;
+    var toY = 0;
+    var toZ = 0;
     var stepSize = 0.02;
+
     function render() {
         stats.begin();
         var time = new Date().getTime() / 1000;
@@ -204,6 +207,10 @@ TODO: Optimizations, test on various devices, etc.
                 //test.rotation.x = api.convert.rotate(json[0]);
 
                 toX = api.convert.rotate(json[2]);
+                toY = api.convert.rotate(json[0]);
+                toZ = api.convert.rotate(json[0]);
+
+                console.log("toX"+ toX + "toX" + toX + "toZ" + toZ );
             } else {
 
             }
