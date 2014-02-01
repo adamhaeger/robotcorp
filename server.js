@@ -18,7 +18,7 @@ var io = require('socket.io').listen(app.listen(9000));
 io.sockets.on('connection', function (socket) {
     fs.watchFile('data.json', {
         persistent: true,
-        interval: 1000
+        interval: 500
     },function(data){
         fs.readFile('data.json', {
             'bufferSize': 4 * 1024,
