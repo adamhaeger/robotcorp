@@ -185,9 +185,6 @@ TODO: Optimizations, test on various devices, etc.
             test.rotation.x -= stepSize;
         }
 
-
-
-
         controls.update( time - lastTime );
         renderer.render(scene, camera);
         lastTime = time;
@@ -207,7 +204,7 @@ TODO: Optimizations, test on various devices, etc.
                 //test.rotation.x = api.convert.rotate(json[0]);
 
                 toX = api.convert.rotate(json[2]);
-                toY = api.convert.rotate(json[0]);
+                toY = api.convert.rotate(json[1]);
                 toZ = api.convert.rotate(json[0]);
 
                 console.log("toX"+ toX + "toX" + toX + "toZ" + toZ );
