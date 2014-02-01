@@ -166,7 +166,10 @@ TODO: Optimizations, test on various devices, etc.
     console.log(controls);
 
     var toX = 0;
+    var toY = 0;
+    var toZ = 0;
     var stepSize = 0.02;
+
     function render() {
         stats.begin();
         var time = new Date().getTime() / 1000;
@@ -182,7 +185,17 @@ TODO: Optimizations, test on various devices, etc.
             test.rotation.x -= stepSize;
         }
 
+        if (toY > test.rotation.y + stepSize) {
+            test.rotation.y += stepSize;
+        } else if (toX < test.rotation.y - stepSize) {
+            test.rotation.y -= stepSize;
+        }
 
+        if (toZ > test.rotation.z + stepSize) {
+            test.rotation.z += stepSize;
+        } else if (toZ < test.rotation.z - stepSize) {
+            test.rotation.z -= stepSize;
+        }
 
 
         controls.update( time - lastTime );
@@ -202,6 +215,10 @@ TODO: Optimizations, test on various devices, etc.
                 //test.rotation.x = api.convert.rotate(json[0]);
 
                 toX = api.convert.rotate(json[2]);
+                toY = api.convert.rotate(json[1]);
+                toZ = api.convert.rotate(json[0]);
+
+                console.log("toX"+ toX + "toX" + toX + "toZ" + toZ );
             } else {
 
             }
