@@ -26,18 +26,18 @@
             }
 
             timer = setTimeout(function(){
-                api.light.on(1, 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
+                api.light.on(parseInt($("#light").val(), 10), 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
             }, 300);
 
         });
 
         $('.light-on').on('click', function(){
-            api.light.on($(this).attr('data-light-id'), 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
+            api.light.on(parseInt($("#light").val(), 10), 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
         });
 
 
         $('.light-off').on('click', function(){
-            api.light.off($(this).attr('data-light-id'));
+            api.light.off(parseInt($("#light").val(), 10));
         });
 
     });
@@ -49,22 +49,24 @@
             <h1>Robocorp <small>totally not sponsored by bootstrap</small></h1>
         </div>
 
-
-
-        <div class="col-sm-offset-1 col-sm-10">
-            <button data-light-id="1" type="button" class="light-on btn btn-primary btn-block">Light 1 on</button>
-            <button data-light-id="1" type="button" class="light-off btn btn-primary btn-block">Light 1 off</button>
-
-            <button data-light-id="2" type="button" class="light-on btn btn-primary btn-block">Light 2 on</button>
-            <button data-light-id="2" type="button" class="light-off btn btn-primary btn-block">Light 2 off</button>
-
-            <button data-light-id="3" type="button" class="light-on btn btn-primary btn-block">Light 3 on</button>
-            <button data-light-id="3" type="button" class="light-off btn btn-primary btn-block">Light 3 off</button>
+        <div class="dropdown col-xs-offset-1 col-xs-10">
+            <select id="light" class="form-control">
+                <option value="1">Light 1</option>
+                <option value="2">Light 2</option>
+                <option value="3">Light 3</option>
+                <option value="0">All</option>
+            </select>
         </div>
-        <div class="col-sm-offset-1 col-sm-10">
+
+        <div class="col-xs-offset-1 col-xs-10">
             Hue: 0-65535 <input id="hue" type="range" name="hue" min="0" max="65535" value="0">
             Saturation: 0-255 <input id="sat" type="range" name="sat" min="0" max="255" value="255">
             Brightness: 0-255 <input id="bri" type="range" name="li" min="0" max="255" value="150">
+        </div>
+
+        <div class="col-xs-offset-1 col-xs-10">
+            <button data-light-id="1" type="button" class="light-on btn btn-primary btn-block">Light on</button>
+            <button data-light-id="1" type="button" class="light-off btn btn-primary btn-block">Light off</button>
         </div>
     </div>
 
