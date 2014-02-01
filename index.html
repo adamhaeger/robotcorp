@@ -34,8 +34,10 @@
             });
         }, 50);*/
 
+
+
         $('.light-on').on('click', function(){
-            api.light.on($(this).attr('data-light-id'), 200, 255, 100);
+            api.light.on($(this).attr('data-light-id'), 'none', 23000, 255, 100);
         });
 
 
@@ -51,6 +53,8 @@
         <div>
             <h1>Robocorp <small>totally not sponsored by bootstrap</small></h1>
         </div>
+
+
 
         <div class="col-sm-offset-1 col-sm-10">
             <button data-light-id="1" type="button" class="light-on btn btn-primary btn-block">Light 1 on</button>

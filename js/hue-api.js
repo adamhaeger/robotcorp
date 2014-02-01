@@ -5,12 +5,19 @@ function apiFunction() {
 
 
     this.light = {
-        on: function(lightId, hue, sat, brightness) {
+        on: function(lightId, type, hue, sat, brightness) {
+
+            if (type == undefined) {
+                type = "none";
+            }
+
             var lightObj = {
                 "on":true,
                 "sat":sat,
                 "bri":brightness,
-                "hue":hue
+                "hue":hue,
+                "alert":type,
+                "effect": "colorloop"
             };
 
             return $.ajax({
