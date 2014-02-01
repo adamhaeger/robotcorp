@@ -17,27 +17,22 @@
 
 <script type="text/javascript">
 
-
+    var timer;
     $(function(){
 
-/*
-        var test = setTimeout(function(){
-            var brightness = Math.floor(Math.random()*255);
-            var randomLamp = Math.floor(Math.random()*3)+1;
-            var hue = Math.floor(Math.random()*3);
-            var light = {"on":true, "sat":150, "bri":brightness,"hue":300};
-            $.ajax({
-                url: "http://192.168.1.198/api/newdeveloper/lights/" + randomLamp + "/state",
-                type: "PUT",
-                contentType: "application/jsonp",
-                data: JSON.stringify(light)
-            });
-        }, 50);*/
+        $("#hue").on('change', function(){
+            if (timer) {
+                clearTimeout(timer);
+            }
 
+            timer = setTimeout(function(){
+                api.light.on(1, 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
+            }, 300);
 
+        });
 
         $('.light-on').on('click', function(){
-            api.light.on($(this).attr('data-light-id'), 'none', 23000, 255, 100);
+            api.light.on($(this).attr('data-light-id'), 'none', parseInt($("#hue").val(),10), parseInt($("#sat").val(), 10), parseInt($("#bri").val(), 10));
         });
 
 
@@ -65,6 +60,11 @@
 
             <button data-light-id="3" type="button" class="light-on btn btn-primary btn-block">Light 3 on</button>
             <button data-light-id="3" type="button" class="light-off btn btn-primary btn-block">Light 3 off</button>
+        </div>
+        <div class="col-sm-offset-1 col-sm-10">
+            Hue: 0-65535 <input id="hue" type="range" name="hue" min="0" max="65535" value="0">
+            Saturation: 0-255 <input id="sat" type="range" name="sat" min="0" max="255" value="255">
+            Brightness: 0-255 <input id="bri" type="range" name="li" min="0" max="255" value="150">
         </div>
     </div>
 

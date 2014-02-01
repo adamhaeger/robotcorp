@@ -17,7 +17,7 @@ function apiFunction() {
                 "bri":brightness,
                 "hue":hue,
                 "alert":type,
-                "effect": "colorloop"
+                "effect": "none"
             };
 
             return $.ajax({
