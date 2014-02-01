@@ -185,6 +185,19 @@ TODO: Optimizations, test on various devices, etc.
             test.rotation.x -= stepSize;
         }
 
+        if (toY > test.rotation.y + stepSize) {
+            test.rotation.y += stepSize;
+        } else if (toX < test.rotation.y - stepSize) {
+            test.rotation.y -= stepSize;
+        }
+
+        if (toZ > test.rotation.z + stepSize) {
+            test.rotation.z += stepSize;
+        } else if (toZ < test.rotation.z - stepSize) {
+            test.rotation.z -= stepSize;
+        }
+
+
         controls.update( time - lastTime );
         renderer.render(scene, camera);
         lastTime = time;
