@@ -47,6 +47,7 @@ TODO: Optimizations, test on various devices, etc.
     var lastTime = 0;
     var camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
     var scene = new THREE.Scene();
+    var clock = new THREE.Clock();
     scene.add(camera);
     camera.position.z = 500;
     camera.position.y = 100;
@@ -172,6 +173,8 @@ TODO: Optimizations, test on various devices, etc.
     console.log(controls);
 
     var toX = 0;
+    var toY = 0;
+    var toZ = 0;
     var stepSize = 0.02;
     renderer.setClearColorHex( 0xabcabc, 1 );
     function render() {
@@ -189,6 +192,24 @@ TODO: Optimizations, test on various devices, etc.
                 test.rotation.x += stepSize;
             } else if (toX < test.rotation.x - stepSize) {
                 test.rotation.x -= stepSize;
+            }
+
+            if (toY > test.rotation.y + stepSize) {
+                test.rotation.y += stepSize;
+            } else if (toY < test.rotation.y - stepSize) {
+                test.rotation.y -= stepSize;
+            }
+
+            if (toX > test.rotation.z + stepSize) {
+                test.rotation.z += stepSize;
+            } else if (toX < test.rotation.z - stepSize) {
+                test.rotation.z -= stepSize;
+            }
+
+            if (i%2) {
+                test.position.y += Math.sin(clock.getElapsedTime());
+            } else {
+                test.position.y -= Math.sin(clock.getElapsedTime());
             }
         }
 
@@ -213,6 +234,8 @@ TODO: Optimizations, test on various devices, etc.
                 //test.rotation.x = api.convert.rotate(json[0]);
 
                 toX = api.convert.rotate(json[2]);
+                toY = api.convert.rotate(json[0]);
+                toZ = api.convert.rotate(json[1]);
             } else {
 
             }
