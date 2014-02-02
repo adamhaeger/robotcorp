@@ -10,3 +10,21 @@
      background-color: green; */
 }
 
+.blink {
+    color: #fffb00;
+    animation-duration: 1s;    animation-name: blink;    animation-iteration-count: infinite;    animation-direction: alternate;    animation-timing-function: ease-in-out;
+    text-shadow: 5px 5px 5px #000;
+}
+
+@keyframes blink {
+    from {
+        color: #fffb00;
+        opacity: 1;
+        text-size: 80;
+    }
+    to {
+        color: #cc1000;
+        font-size: 100;
+        opacity: 0;
+    }
+}
